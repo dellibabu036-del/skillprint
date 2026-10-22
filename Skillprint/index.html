@@ -22390,7 +22390,13 @@ async function runProfessionalPlagiarism() {
 
   try {
     // === MOCK API — replace with real fetch later (see Fix 4) ===
-    const result = await mockProfessionalAPICall(txt);
+    const res = await fetch('/.netlify/functions/check-plagiarism', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ text: txt })
+});
+if (!res.ok) throw new Error('Plagiarism API failed: ' + res.status);
+const result = await res.json();
 
     STATE.plagReports.count++;
     LS.set('plagReports', STATE.plagReports);
