@@ -22291,8 +22291,25 @@ function renderScholarPanels(){
   if (typeof updatePlagLimitUI === 'function') setTimeout(updatePlagLimitUI, 100);
 }
 
+  function showScholarTool(tool, ev){
+  if(ev){
+    ev.preventDefault();
+    SFX.click();
+    // Update active tab styling
+    document.querySelectorAll('.scholar-tab').forEach(t => t.classList.remove('active'));
+    if(ev.currentTarget) ev.currentTarget.classList.add('active');
+  }
+  
+  // Hide all panels, then show the selected one
+  document.querySelectorAll('.scholar-panel').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('st-' + tool);
+  if(target) target.classList.add('active');
+  
+  // Load specific data for certain tools
   if(tool === 'uploads') loadUploads();
-  if(tool === 'plagiarism') updatePlagLimitUI();
+  if(tool === 'plagiarism') setTimeout(updatePlagLimitUI, 50);
+}
+  
 
 /* ============================================================
    TOOL 1 — PLAGIARISM
